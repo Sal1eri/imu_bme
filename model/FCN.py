@@ -6,9 +6,10 @@ import torch
 from torch import nn
 from torchvision import models
 import numpy as np
+from torchvision.models import VGG16_Weights, ResNet34_Weights
 
-pretrained_model = models.vgg16(pretrained=True)  # 用于 FCN32x FCN16x FCN8x
-pretrained_net = models.resnet34(pretrained=True)  # 用于 FCN8s
+pretrained_model = models.vgg16(weights=VGG16_Weights.DEFAULT)  # 用于 FCN32x FCN16x FCN8x
+pretrained_net = models.resnet34(weights=ResNet34_Weights.DEFAULT)  # 用于 FCN8s
 
 
 def bilinear_kernel(in_channels, out_channels, kernel_size):

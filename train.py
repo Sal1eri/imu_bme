@@ -38,6 +38,7 @@ def load_model(args):
     if args.model == 'Unet':
         model_name = 'UNet'
         net = UNet(3, 2)
+        net.loadIFExist()
         print("using UNet")
     elif args.model == "FCN":
         model_name = 'FCN8x'
@@ -65,7 +66,7 @@ def load_model(args):
         print('using URestnet2+')
     else:
         model_name = 'PSPnet'
-        net = PSPNet(21)
+        net = PSPNet(3)
         print("using PSPnet")
 
 
@@ -75,6 +76,10 @@ def load_model(args):
 def train(args, model_name, net):
     model_path = './model_result/best_model_{}.mdl'.format(model_name)
     result_path = './result_{}.txt'.format(model_name)
+    # 获取模型保存路径的父目录
+    parent_dir = os.path.dirname(model_path)
+    if not os.path.exists(parent_dir):
+        os.makedirs(parent_dir)
 
     if os.path.exists(result_path):
         os.remove(result_path)
@@ -82,7 +87,8 @@ def train(args, model_name, net):
     best_score = 0.0
     start_time = time.time()  # 开始训练的时间
     # 加载模型
-    # net.loadIFExist(model_path)
+
+
     # 构建网络
     optimizer = optim.Adam(net.parameters(), lr=args.init_lr, weight_decay=1e-4)
     criterion = nn.CrossEntropyLoss()
@@ -99,14 +105,14 @@ def train(args, model_name, net):
     # val_dataloader = DataLoader(val_data, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
 
     train_transform = Compose([
-                                    Resize(512),
+                                    Resize((args.input_height, args.input_width)),
                                     RandomHorizontalFlip(0.5),
                                     ToTensor(),
                                     Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
                              ])
 
     val_transform = Compose([
-                                    Resize(512),
+                                    Resize((args.input_height, args.input_width)),
                                     ToTensor(),
                                     Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
                             ])
@@ -133,6 +139,7 @@ def train(args, model_name, net):
 
     if use_gpu:
         torch.cuda.set_device(args.gpu)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         net.cuda()
         criterion = criterion.cuda()
     epoch = args.epochs
@@ -147,6 +154,7 @@ def train(args, model_name, net):
             for i, (batchdata, batchlabel) in enumerate(train_dataloader):
                 if use_gpu:
                     batchdata, batchlabel = batchdata.cuda(), batchlabel.cuda()
+                    batchlabel = (batchlabel / 255).to(device).long()
 
                 output = net(batchdata)
                 output = F.log_softmax(output, dim=1)
@@ -164,7 +172,7 @@ def train(args, model_name, net):
                 label_pred = torch.cat((label_pred, pred), dim=0)
                 pb_train.update(1)
 
-        train_loss /= len(train_data)
+        train_loss /= len(train_dataloader.dataset)
         acc, acc_cls, mean_iu, fwavacc, _, _, _, _ = label_accuracy_score(label_true.numpy(), label_pred.numpy(),
                                                                           args.n_classes)
 
@@ -185,6 +193,7 @@ def train(args, model_name, net):
                 for i, (batchdata, batchlabel) in enumerate(val_dataloader):
                     if use_gpu:
                         batchdata, batchlabel = batchdata.cuda(), batchlabel.cuda()
+                        batchlabel = (batchlabel / 255).to(device).long()
 
                     output = net(batchdata)
                     output = F.log_softmax(output, dim=1)
@@ -199,7 +208,7 @@ def train(args, model_name, net):
 
                     pb_val.update(1)
 
-            val_loss /= len(val_data)
+            val_loss /= len(val_dataloader.dataset)
             val_acc, val_acc_cls, val_mean_iu, val_fwavacc, _, _, _, _ = label_accuracy_score(val_label_true.numpy(),
                                                                                               val_label_pred.numpy(),
                                                                                               args.n_classes)

@@ -5,7 +5,7 @@ import torch.nn as nn
 import os
 
 class UNet(nn.Module):
-    def __init__(self, in_channels=3, out_channels=2, init_features=8):
+    def __init__(self, in_channels=3, out_channels=2, init_features=16):
         super(UNet, self).__init__()
 
         features = init_features
@@ -69,12 +69,13 @@ class UNet(nn.Module):
 
     def loadIFExist(self):
         #fileList = os.listdir("./saved_model/")
-        fileList = os.listdir("./output_dir/")
+        fileList = os.listdir('model_result')
         print(fileList)
-        if "last.pth" in fileList:
+        if "best_model_UNet.mdl" in fileList:
             name = "./saved_model/Unet_new.pth"
             name2="./output_dir/last.pth"
-            self.load_state_dict(torch.load(name2))
+            name3 = "./model_result/best_model_UNet.mdl"
+            self.load_state_dict(torch.load(name3))
             print("the latest model has been load")
 
     @staticmethod
@@ -110,12 +111,6 @@ class UNet(nn.Module):
             )
         )
 
-def get_model():
-    path = r'.\mriunet'
-    model = torch.hub.load(path, 'unet',
-        in_channels=3, out_channels=1, init_features=32, pretrained=True,source='local')
-    print(model)
-    return model
 
 if __name__ == '__main__':
     from torchsummary import summary

@@ -1,0 +1,21 @@
+
+ epoch: 1, train_loss: 0.5358, acc: 0.9042, acc_cls: 0.6552, mean_iu: 0.5910, fwavacc: 0.8310
+ epoch: 1, val_loss: 0.5371, acc: 0.9009, acc_cls: 0.6363, mean_iu: 0.5795, fwavacc: 0.8190
+ epoch: 2, train_loss: 0.5036, acc: 0.9074, acc_cls: 0.6611, mean_iu: 0.5988, fwavacc: 0.8353
+ epoch: 2, val_loss: 0.5655, acc: 0.8248, acc_cls: 0.6579, mean_iu: 0.5248, fwavacc: 0.7434
+ epoch: 3, train_loss: 0.4759, acc: 0.9123, acc_cls: 0.6747, mean_iu: 0.6144, fwavacc: 0.8425
+ epoch: 3, val_loss: 0.4892, acc: 0.9042, acc_cls: 0.6745, mean_iu: 0.6109, fwavacc: 0.8286
+ epoch: 4, train_loss: 0.4547, acc: 0.9159, acc_cls: 0.6914, mean_iu: 0.6305, fwavacc: 0.8488
+ epoch: 4, val_loss: 0.4729, acc: 0.9035, acc_cls: 0.6311, mean_iu: 0.5781, fwavacc: 0.8209
+ epoch: 5, train_loss: 0.4381, acc: 0.9197, acc_cls: 0.7134, mean_iu: 0.6501, fwavacc: 0.8559
+ epoch: 5, val_loss: 0.4630, acc: 0.8968, acc_cls: 0.6777, mean_iu: 0.6037, fwavacc: 0.8207
+ epoch: 6, train_loss: 0.4293, acc: 0.9179, acc_cls: 0.7000, mean_iu: 0.6390, fwavacc: 0.8521
+ epoch: 6, val_loss: 0.5377, acc: 0.9053, acc_cls: 0.6355, mean_iu: 0.5836, fwavacc: 0.8236
+ epoch: 7, train_loss: 0.4216, acc: 0.9191, acc_cls: 0.7051, mean_iu: 0.6440, fwavacc: 0.8542
+ epoch: 7, val_loss: 0.4467, acc: 0.8952, acc_cls: 0.6855, mean_iu: 0.6066, fwavacc: 0.8200
+ epoch: 8, train_loss: 0.4123, acc: 0.9235, acc_cls: 0.7241, mean_iu: 0.6629, fwavacc: 0.8618
+ epoch: 8, val_loss: 0.4372, acc: 0.8976, acc_cls: 0.6917, mean_iu: 0.6134, fwavacc: 0.8235
+ epoch: 9, train_loss: 0.4086, acc: 0.9228, acc_cls: 0.7178, mean_iu: 0.6580, fwavacc: 0.8602
+ epoch: 9, val_loss: 0.4307, acc: 0.9052, acc_cls: 0.6770, mean_iu: 0.6139, fwavacc: 0.8301
+ epoch: 10, train_loss: 0.4044, acc: 0.9236, acc_cls: 0.7187, mean_iu: 0.6599, fwavacc: 0.8612
+ epoch: 10, val_loss: 0.5494, acc: 0.7675, acc_cls: 0.6417, mean_iu: 0.4770, fwavacc: 0.6851

@@ -139,3 +139,5 @@ cython_debug/
 
 # Model Train Data
 data/
+
+data.zip

@@ -12,25 +12,25 @@ from model.DeepLab import DeepLabV3
 from utils.eval_tool import label_accuracy_score
 import history
 
-# model = 'UNet'
-model = 'FCN8x'
+model = 'UNet'
+# model = 'FCN8x'
 # model = 'DeepLabV3'
 GPU_ID = 0
 INPUT_WIDTH = 320
 INPUT_HEIGHT = 320
 BATCH_SIZE = 8
-NUM_CLASSES = 21
+NUM_CLASSES = 2
 LEARNING_RATE = 1e-3
 
 model_path = './model_result/best_model_{}.mdl'.format(model)
 # model_path='./model_result/best_model_{}_kaggle.mdl'.format(model)
 
 torch.cuda.set_device(GPU_ID)
-net = FCN8x(NUM_CLASSES)
+# net = FCN8x(NUM_CLASSES)
 
 
 # net = DeepLabV3(NUM_CLASSES)
-# net = UNet(3,NUM_CLASSES)
+net = UNet(3,NUM_CLASSES)
 # 加载网络进行测试
 
 
@@ -43,7 +43,7 @@ def evaluate(model):
     # @qyk
     from tqdm import tqdm
 
-    test_csv_dir = 'test.csv'
+    test_csv_dir = 'validation.csv'
     testset = CustomDataset(test_csv_dir, INPUT_WIDTH, INPUT_HEIGHT)
     test_dataloader = DataLoader(testset, batch_size=BATCH_SIZE, shuffle=False)
 
@@ -56,9 +56,11 @@ def evaluate(model):
         net.cuda()
         out = net(val_image.cuda())  # [Batch_size, NUM_CLASSES, INPUT_HEIGHT, INPUT_WIDTH]
         pred = out.argmax(dim=1).squeeze().data.cpu().numpy()  # [Batch_size, INPUT_HEIGHT, INPUT_WIDTH]
-        label = val_label.data.numpy()
-        val_pred, val_label = label2image(NUM_CLASSES)(pred, label)
 
+        label = val_label.data.numpy()
+
+        val_pred, val_label = label2image()(pred, label)
+        # val_pred , val_label = pred*255 , label
         for i in range(BATCH_SIZE):
             val_imag = val_image[i]
             val_pre = val_pred[i]
@@ -74,7 +76,7 @@ def evaluate(model):
 
             fig, ax = plt.subplots(1, 3, figsize=(30, 30))
             ax[0].imshow(img)
-            ax[1].imshow(val_labe)
+            ax[1].imshow(val_labe,cmap='gray')
             ax[2].imshow(val_pre)
             # plt.show()
             plt.savefig('./pic_results/pic_{}_{}.png'.format(model, i))

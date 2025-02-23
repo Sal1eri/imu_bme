@@ -15,7 +15,7 @@ from model.DeepLab import DeepLabV3
 from u3plus.UNet_3Plus import UNet_3Plus
 from model.PSPnet import PSPNet
 from u3plus.Qnet import ResNetUNet
-
+from model.Unet import UNet
 BATCH_SIZE = 16
 INPUT_WIDTH = 320
 INPUT_HEIGHT = 320
@@ -23,8 +23,11 @@ GPU_ID = 0
 NUM_CLASSES = 2
 
 
+
+
+
 def main():
-    val_csv_dir = 'val.csv'
+    val_csv_dir = 'validation.csv'
     val_data = CustomDataset(val_csv_dir, INPUT_WIDTH, INPUT_HEIGHT)
     val_dataloader = DataLoader(val_data, batch_size=BATCH_SIZE, shuffle=True, num_workers=2)
 
@@ -40,8 +43,10 @@ def main():
     # model = 'DeepLabV3'
     # net = DeepLabV3(21)
 
-    model = 'Qnet'
-    net = ResNetUNet()
+    # model = 'Qnet'
+    # net = ResNetUNet()
+    model = 'Unet'
+    net = UNet(3,2,16)
 
     model_path = './model_result/best_model_{}.mdl'.format(model)
 
@@ -65,6 +70,7 @@ def main():
         for i, (batchdata, batchlabel) in enumerate(val_dataloader):
             if use_gpu:
                 batchdata, batchlabel = batchdata.cuda(), batchlabel.cuda()
+                batchlabel = (batchlabel / 255).cuda().long()
 
             output = net(batchdata)
             # loss_soft_before = criterion(output, batchlabel)
@@ -107,10 +113,7 @@ def main():
             f'val_loss: {val_loss:.4f}, acc: {val_acc:.4f}, acc_cls: {val_acc_cls:.4f}, '
             f'mean_iu: {val_mean_iu:.4f}, fwavacc: {val_fwavacc:.4f}, mean_dice: {mean_dice:.4f}')
 
-    classes = ['background', 'aeroplane', 'bicycle', 'bird', 'boat',
-               'bottle', 'bus', 'car', 'cat', 'chair', 'cow', 'diningtable',
-               'dog', 'horse', 'motorbike', 'person', 'potted plant',
-               'sheep', 'sofa', 'train', 'tv/monitor']
+    classes = ['background', 'organoids']
     print("==========Every IOU==========")
     for name, prob in zip(classes, cls_iou):
         print(name + " : " + str(prob))

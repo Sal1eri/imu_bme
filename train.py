@@ -62,7 +62,7 @@ def load_model(args):
         print('using Uesnet50')
     elif args.model == 'Unet2+':
         model_name = 'URestnet++'
-        net = NestedUResnet(block=BasicBlock,layers=[3,4,6,3],num_classes=21)
+        net = NestedUResnet(block=BasicBlock,layers=[3,4,6,3],num_classes=2)
         print('using URestnet2+')
     else:
         model_name = 'PSPnet'

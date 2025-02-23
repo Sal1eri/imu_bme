@@ -10,7 +10,7 @@ def convrelu(in_channels, out_channels, kernel, padding):
 
 
 class UesNet(nn.Module):
-    def __init__(self, n_class=21):
+    def __init__(self, n_class=2):
         super().__init__()
 
         self.base_model = models.resnet50(pretrained=True)

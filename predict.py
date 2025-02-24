@@ -11,10 +11,11 @@ from model.DeepLab import DeepLabV3
 # from torch.nn import functional as F
 from utils.eval_tool import label_accuracy_score
 import history
-
-model = 'UNet'
+from u3plus.Qnet import ResNetUNet
+# model = 'UNet'
 # model = 'FCN8x'
 # model = 'DeepLabV3'
+model = 'Qnet'
 GPU_ID = 0
 INPUT_WIDTH = 320
 INPUT_HEIGHT = 320
@@ -30,7 +31,8 @@ torch.cuda.set_device(GPU_ID)
 
 
 # net = DeepLabV3(NUM_CLASSES)
-net = UNet(3,NUM_CLASSES)
+# net = UNet(3,NUM_CLASSES)
+net = ResNetUNet(2)
 # 加载网络进行测试
 
 

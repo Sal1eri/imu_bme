@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader
 from model.FCN import FCN32s, FCN8x
 from model.Unet import UNet
 from model.DeepLab import DeepLabV3
+from model.swin_transformer_v2 import SwinTransformerV2
 import torch
 import os
 from torch import nn, optim
@@ -64,6 +65,10 @@ def load_model(args):
         model_name = 'URestnet++'
         net = NestedUResnet(block=BasicBlock,layers=[3,4,6,3],num_classes=2)
         print('using URestnet2+')
+    elif args.model == 'ViT':
+        model_name = 'ViT'
+        net = SwinTransformerV2(num_classes=2)
+        print('using ViT')
     else:
         model_name = 'PSPnet'
         net = PSPNet(3)

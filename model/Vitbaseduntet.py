@@ -79,7 +79,8 @@ class ViT_UNet(nn.Module):
             
             # 跳跃连接
             if i < len(self.skip_connections):
-                skip = self.skip_connections[i](encoder_features[-(i+2)])
+                # 使用正确的索引访问编码器特征
+                skip = self.skip_connections[i](encoder_features[i])
                 # 确保特征图大小匹配
                 if x.size() != skip.size():
                     x = nn.functional.interpolate(x, size=skip.size()[2:], mode='bilinear', align_corners=True)

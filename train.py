@@ -290,6 +290,9 @@ def train(args, model_name, net):
     plots_dir = os.path.join('training_plots', model_name)
     os.makedirs(plots_dir, exist_ok=True)
     
+    # 创建时间戳
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    
     for e in range(epoch):
         net.train()
         epoch_start_time = time.time()

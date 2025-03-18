@@ -1,0 +1,3 @@
+
+ epoch: 1, train_loss: 0.3681, acc: 0.9442, acc_cls: 0.7907, mean_iu: 0.7420, fwavacc: 0.8957
+ epoch: 1, val_loss: 0.3948, acc: 0.9176, acc_cls: 0.6933, mean_iu: 0.6424, fwavacc: 0.8466

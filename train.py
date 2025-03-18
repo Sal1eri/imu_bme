@@ -189,9 +189,9 @@ def train(args, model_name, net):
 
                 output = net(batchdata)
                 output = F.log_softmax(output, dim=1)
-                # loss = criterion(output, batchlabel)
+                loss = criterion(output, batchlabel)
 
-                loss = boundary_loss(output, batchlabel)
+                # loss = boundary_loss(output, batchlabel)
                 loss = loss.cuda()
                 pred = output.argmax(dim=1).squeeze().data.cpu()
                 real = batchlabel.data.cpu()
@@ -230,8 +230,8 @@ def train(args, model_name, net):
 
                     output = net(batchdata)
                     output = F.log_softmax(output, dim=1)
-                    # loss = criterion(output, batchlabel)
-                    loss = boundary_loss(output, batchlabel)
+                    loss = criterion(output, batchlabel)
+                    # loss = boundary_loss(output, batchlabel)
                     pred = output.argmax(dim=1).squeeze().data.cpu()
                     real = batchlabel.data.cpu()
 

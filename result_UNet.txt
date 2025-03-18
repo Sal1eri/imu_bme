@@ -1,3 +1,12 @@
 
- epoch: 1, train_loss: 0.3681, acc: 0.9442, acc_cls: 0.7907, mean_iu: 0.7420, fwavacc: 0.8957
- epoch: 1, val_loss: 0.3948, acc: 0.9176, acc_cls: 0.6933, mean_iu: 0.6424, fwavacc: 0.8466
+epoch: 1
+train_loss: 1.1731, acc: 0.8365, acc_cls: 0.6292, mean_iu: 0.5143, fwavacc: 0.7588
+
+epoch: 2
+train_loss: 0.4257, acc: 0.9027, acc_cls: 0.6531, mean_iu: 0.5877, fwavacc: 0.8291
+
+epoch: 3
+train_loss: 0.3689, acc: 0.9076, acc_cls: 0.6670, mean_iu: 0.6031, fwavacc: 0.8363
+
+epoch: 4
+train_loss: 0.3946, acc: 0.9071, acc_cls: 0.6707, mean_iu: 0.6049, fwavacc: 0.8362

@@ -51,6 +51,9 @@ class ViT_UNet(nn.Module):
             )
 
     def forward(self, x):
+        # 保存输入尺寸
+        input_size = x.size()[2:]
+        
         # ViT 提取特征
         vit_output = self.vit(x)
         features = vit_output.last_hidden_state
@@ -88,6 +91,10 @@ class ViT_UNet(nn.Module):
                 
         # 最终输出
         x = self.final_conv(x)
+        
+        # 将输出调整到输入图像大小
+        x = nn.functional.interpolate(x, size=input_size, mode='bilinear', align_corners=True)
+        
         return x
     
     def save(self, path="./model_result/best_model_ViT_UNet.mdl"):

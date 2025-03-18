@@ -43,7 +43,7 @@ from utils.transform import Resize,Compose,ToTensor,Normalize,RandomHorizontalFl
 # 引用loss
 
 from model.Vitbaseduntet import ViT_UNet
-
+from model.AttentionUNetPlusPlus import AttentionUNetPlusPlus
 
 
 def boundary_loss(data, label):
@@ -114,6 +114,10 @@ def load_model(args):
         model_name = 'ViT'
         net = ViT_UNet(num_classes=2)
         print('using ViT')
+    elif args.model == 'AttentionUNet+':
+        model_name = 'AttentionUNet++'
+        net = AttentionUNetPlusPlus()
+        print('using AttentionUNet+')
     else:
         model_name = 'PSPnet'
         net = PSPNet(3)
@@ -220,8 +224,8 @@ def train(args, model_name, net):
     )
     
     # 设置混合损失权重
-    alpha = 0.7  # 交叉熵损失权重
-    beta = 0.3   # 边界损失权重
+    alpha = 0.8  # 交叉熵损失权重
+    beta = 0.2   # 边界损失权重
     
     best_score = 0.0
     start_time = time.time()
@@ -437,8 +441,9 @@ def train(args, model_name, net):
 if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
-    # args.model = 'ViT'
+    # args.model = 'AttentionUNet+'
     # args.epochs = 2
+
     model_name, net = load_model(args)
     # print(args.n_classes)
     # print(args.init_lr)

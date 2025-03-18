@@ -124,3 +124,4 @@ class ViT_UNet(nn.Module):
     def loadIFExist(self):
         """兼容原有训练代码的加载方法"""
         self.load()
+

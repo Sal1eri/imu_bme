@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 from model.FCN import FCN32s, FCN8x
 from model.Unet import UNet
 from model.DeepLab import DeepLabV3
-from model.swin_transformer_v2 import SwinTransformerV2
+from model.swin_transformer_v2 import SegFormer
 import torch
 import os
 from torch import nn, optim
@@ -34,6 +34,32 @@ from model.PSPnet import PSPNet
 from utils.datasets import SegData
 
 from utils.transform import Resize,Compose,ToTensor,Normalize,RandomHorizontalFlip
+
+
+# 引用loss
+
+from model.Vitbaseduntet import ViT_UNet
+
+
+
+def boundary_loss(data,label):
+    from losses import SurfaceLoss
+    from losses import class2one_hot
+    from losses import one_hot2dist
+    label = class2one_hot(label,2)
+
+
+    label = label[0].cpu().numpy()
+    label = one_hot2dist(label)
+    data = data.argmax(dim=1).squeeze().data.cpu()
+    data = class2one_hot(data,2)
+
+
+
+    Loss = SurfaceLoss()
+    tmp = torch.tensor(label).unsqueeze(0)
+    res = Loss(data,tmp,None)
+    return res
 
 def load_model(args):
     if args.model == 'Unet':
@@ -67,7 +93,7 @@ def load_model(args):
         print('using URestnet2+')
     elif args.model == 'ViT':
         model_name = 'ViT'
-        net = SwinTransformerV2(num_classes=2)
+        net = ViT_UNet(num_classes=2)
         print('using ViT')
     else:
         model_name = 'PSPnet'
@@ -163,8 +189,10 @@ def train(args, model_name, net):
 
                 output = net(batchdata)
                 output = F.log_softmax(output, dim=1)
-                loss = criterion(output, batchlabel)
+                # loss = criterion(output, batchlabel)
 
+                loss = boundary_loss(output, batchlabel)
+                loss = loss.cuda()
                 pred = output.argmax(dim=1).squeeze().data.cpu()
                 real = batchlabel.data.cpu()
 
@@ -202,8 +230,8 @@ def train(args, model_name, net):
 
                     output = net(batchdata)
                     output = F.log_softmax(output, dim=1)
-                    loss = criterion(output, batchlabel)
-
+                    # loss = criterion(output, batchlabel)
+                    loss = boundary_loss(output, batchlabel)
                     pred = output.argmax(dim=1).squeeze().data.cpu()
                     real = batchlabel.data.cpu()
 
@@ -237,6 +265,7 @@ def train(args, model_name, net):
 if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
+    args.model = 'ViT'
     model_name, net = load_model(args)
     # print(args.n_classes)
     # print(args.init_lr)

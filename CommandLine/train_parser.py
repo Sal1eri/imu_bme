@@ -4,7 +4,7 @@ import argparse
 def get_args_parser():
     parser = argparse.ArgumentParser('Organoids Train Parser')
     parser.add_argument('-m', '--model', default='Unet', type=str, help="input model name",
-                        choices=['Unet', 'FCN', 'Deeplab', 'Unet3+', 'Qnet','PSPnet','Uesnet50','Unet2+','ViT']
+                        choices=['Unet', 'FCN', 'Deeplab', 'Unet3+', 'Qnet','PSPnet','Uesnet50','Unet2+','ViT','AttentionUNet+']
                         )
     parser.add_argument('--batch_size', '-b', default=64, type=int, help='Batch size for training')
     parser.add_argument('--epochs', '-e', default=10, type=int,help='total epochs for training')

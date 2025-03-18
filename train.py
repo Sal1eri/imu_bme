@@ -18,6 +18,9 @@ import argparse
 from tqdm import tqdm
 import time
 from losses import SurfaceLoss
+import matplotlib.pyplot as plt
+import seaborn as sns
+from datetime import datetime
 
 #   引用u3+模型
 from u3plus.UNet_3Plus import UNet_3Plus
@@ -119,6 +122,70 @@ def load_model(args):
 
     return model_name, net
 
+def plot_training_curves(history, save_dir):
+    """
+    绘制训练过程中的所有指标曲线
+    Args:
+        history: 包含所有训练指标的字典
+        save_dir: 保存图表的目录
+    """
+    # 设置中文字体
+    plt.rcParams['font.sans-serif'] = ['SimHei']
+    plt.rcParams['axes.unicode_minus'] = False
+    
+    # 创建保存目录
+    os.makedirs(save_dir, exist_ok=True)
+    
+    # 设置图表风格
+    plt.style.use('seaborn')
+    
+    # 创建图表
+    fig, axes = plt.subplots(2, 2, figsize=(15, 12))
+    fig.suptitle('训练过程指标', fontsize=16)
+    
+    # 1. 损失曲线
+    axes[0, 0].plot(history['train_loss'], label='训练损失', linewidth=2)
+    axes[0, 0].plot(history['val_loss'], label='验证损失', linewidth=2)
+    axes[0, 0].set_title('损失曲线')
+    axes[0, 0].set_xlabel('Epoch')
+    axes[0, 0].set_ylabel('Loss')
+    axes[0, 0].legend()
+    axes[0, 0].grid(True)
+    
+    # 2. 准确率曲线
+    axes[0, 1].plot(history['train_acc'], label='训练准确率', linewidth=2)
+    axes[0, 1].plot(history['val_acc'], label='验证准确率', linewidth=2)
+    axes[0, 1].set_title('准确率曲线')
+    axes[0, 1].set_xlabel('Epoch')
+    axes[0, 1].set_ylabel('Accuracy')
+    axes[0, 1].legend()
+    axes[0, 1].grid(True)
+    
+    # 3. IoU曲线
+    axes[1, 0].plot(history['train_mean_iu'], label='训练IoU', linewidth=2)
+    axes[1, 0].plot(history['val_mean_iu'], label='验证IoU', linewidth=2)
+    axes[1, 0].set_title('IoU曲线')
+    axes[1, 0].set_xlabel('Epoch')
+    axes[1, 0].set_ylabel('IoU')
+    axes[1, 0].legend()
+    axes[1, 0].grid(True)
+    
+    # 4. 加权准确率曲线
+    axes[1, 1].plot(history['train_fwavacc'], label='训练加权准确率', linewidth=2)
+    axes[1, 1].plot(history['val_fwavacc'], label='验证加权准确率', linewidth=2)
+    axes[1, 1].set_title('加权准确率曲线')
+    axes[1, 1].set_xlabel('Epoch')
+    axes[1, 1].set_ylabel('Weighted Accuracy')
+    axes[1, 1].legend()
+    axes[1, 1].grid(True)
+    
+    # 调整布局
+    plt.tight_layout()
+    
+    # 保存图表
+    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+    plt.savefig(os.path.join(save_dir, f'training_curves_{timestamp}.png'), dpi=300, bbox_inches='tight')
+    plt.close()
 
 def train(args, model_name, net):
     model_path = './model_result/best_model_{}.mdl'.format(model_name)
@@ -203,6 +270,26 @@ def train(args, model_name, net):
         net.cuda()
         criterion = criterion.cuda()
     epoch = args.epochs
+    
+    # 创建训练历史记录字典
+    history = {
+        'train_loss': [],
+        'val_loss': [],
+        'train_acc': [],
+        'val_acc': [],
+        'train_acc_cls': [],
+        'val_acc_cls': [],
+        'train_mean_iu': [],
+        'val_mean_iu': [],
+        'train_fwavacc': [],
+        'val_fwavacc': [],
+        'learning_rates': []
+    }
+    
+    # 创建图表保存目录
+    plots_dir = os.path.join('training_plots', model_name)
+    os.makedirs(plots_dir, exist_ok=True)
+    
     for e in range(epoch):
         net.train()
         epoch_start_time = time.time()
@@ -265,6 +352,14 @@ def train(args, model_name, net):
             f.write(f'train_loss: {train_loss:.4f}, acc: {acc:.4f}, acc_cls: {acc_cls:.4f}, '
                    f'mean_iu: {mean_iu:.4f}, fwavacc: {fwavacc:.4f}\n')
         
+        # 记录训练指标
+        history['train_loss'].append(train_loss)
+        history['train_acc'].append(acc)
+        history['train_acc_cls'].append(acc_cls)
+        history['train_mean_iu'].append(mean_iu)
+        history['train_fwavacc'].append(fwavacc)
+        history['learning_rates'].append(optimizer.param_groups[0]['lr'])
+        
         # 验证阶段
         net.eval()
         val_loss = 0.0
@@ -305,6 +400,20 @@ def train(args, model_name, net):
         
         print(f'val_loss: {val_loss:.4f}, acc: {val_acc:.4f}, acc_cls: {val_acc_cls:.4f}, '
               f'mean_iu: {val_mean_iu:.4f}, fwavacc: {val_fwavacc:.4f}')
+        
+        # 记录验证指标
+        history['val_loss'].append(val_loss)
+        history['val_acc'].append(val_acc)
+        history['val_acc_cls'].append(val_acc_cls)
+        history['val_mean_iu'].append(val_mean_iu)
+        history['val_fwavacc'].append(val_fwavacc)
+        
+        # 每个epoch结束后绘制图表
+        plot_training_curves(history, plots_dir)
+        
+        # 保存训练历史到CSV文件
+        df = pd.DataFrame(history)
+        df.to_csv(os.path.join(plots_dir, f'training_history_{timestamp}.csv'), index=False)
         
         # 保存最佳模型
         score = (val_acc_cls + val_mean_iu) / 2

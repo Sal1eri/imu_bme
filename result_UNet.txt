@@ -10,3 +10,9 @@ train_loss: 0.3689, acc: 0.9076, acc_cls: 0.6670, mean_iu: 0.6031, fwavacc: 0.83
 
 epoch: 4
 train_loss: 0.3946, acc: 0.9071, acc_cls: 0.6707, mean_iu: 0.6049, fwavacc: 0.8362
+
+epoch: 5
+train_loss: 0.3476, acc: 0.9094, acc_cls: 0.6696, mean_iu: 0.6071, fwavacc: 0.8386
+
+epoch: 6
+train_loss: 0.2926, acc: 0.9150, acc_cls: 0.6948, mean_iu: 0.6313, fwavacc: 0.8482

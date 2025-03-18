@@ -80,10 +80,13 @@ def train_one_epoch(model, train_loader, criterion, dice_loss, surface_loss, opt
         optimizer.step()
         
         # 计算评估指标（使用最后一个输出）
-        pred = torch.sigmoid(outputs[-1])  # 使用sigmoid而不是softmax
-        pred = (pred > 0.5).float()  # 二值化
-        acc, acc_cls, mean_iu, fwavacc = label_accuracy_score(
-            target.cpu().numpy(), pred[:, 1].cpu().numpy(), 2)
+        pred = outputs[-1].argmax(dim=1)  # 使用argmax获取类别索引
+        
+        # 确保预测和标签是整数类型
+        pred_np = pred.cpu().numpy().astype(np.int64)
+        target_np = target.squeeze().cpu().numpy().astype(np.int64)
+        
+        acc, acc_cls, mean_iu, fwavacc = label_accuracy_score(target_np, pred_np, 2)
         
         total_loss += loss.item()
         total_acc += acc
@@ -127,10 +130,13 @@ def validate(model, val_loader, criterion, dice_loss, surface_loss, device):
             loss = 0.5 * ce_loss + 0.5 * d_loss
             
             # 计算评估指标
-            pred = torch.sigmoid(output)
-            pred = (pred > 0.5).float()
-            acc, acc_cls, mean_iu, fwavacc = label_accuracy_score(
-                target.cpu().numpy(), pred[:, 1].cpu().numpy(), 2)
+            pred = output.argmax(dim=1)  # 使用argmax获取类别索引
+            
+            # 确保预测和标签是整数类型
+            pred_np = pred.cpu().numpy().astype(np.int64)
+            target_np = target.squeeze().cpu().numpy().astype(np.int64)
+            
+            acc, acc_cls, mean_iu, fwavacc = label_accuracy_score(target_np, pred_np, 2)
             
             total_loss += loss.item()
             total_acc += acc
@@ -197,6 +203,7 @@ def main():
     
     # 创建模型
     model = AttentionUNetPlusPlus(in_channels=3, num_classes=2)
+    model.deep_supervision = True  # 确保深度监督开启
     model = model.to(device)
     
     # 损失函数和优化器
@@ -270,8 +277,11 @@ def main():
             }, os.path.join(save_dir, f'attention_unetpp_epoch_{epoch+1}.pth'))
         
         # 绘制训练曲线
-        from utils.visualization import plot_training_curves
-        plot_training_curves(history, './training_plots')
+        try:
+            from utils.visualization import plot_training_curves
+            plot_training_curves(history, './training_plots')
+        except ImportError:
+            print("可视化模块不可用，跳过绘制训练曲线")
 
 if __name__ == '__main__':
     main() 

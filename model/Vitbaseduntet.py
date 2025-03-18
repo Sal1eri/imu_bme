@@ -43,7 +43,11 @@ class ViT_UNet(nn.Module):
         self.skip_connections = nn.ModuleList()
         for i in range(len(self.decoder_channels)):
             self.skip_connections.append(
-                nn.Conv2d(self.encoder_channels[i], self.decoder_channels[i], kernel_size=1)
+                nn.Sequential(
+                    nn.Conv2d(self.encoder_channels[i], self.decoder_channels[i], kernel_size=1),
+                    nn.BatchNorm2d(self.decoder_channels[i]),
+                    nn.ReLU(inplace=True)
+                )
             )
 
     def forward(self, x):
@@ -76,11 +80,14 @@ class ViT_UNet(nn.Module):
             # 跳跃连接
             if i < len(self.skip_connections):
                 skip = self.skip_connections[i](encoder_features[-(i+2)])
+                # 确保特征图大小匹配
+                if x.size() != skip.size():
+                    x = nn.functional.interpolate(x, size=skip.size()[2:], mode='bilinear', align_corners=True)
                 x = x + skip
                 
         # 最终输出
         x = self.final_conv(x)
-        return torch.sigmoid(x)
+        return x
     
     def save(self, path="./model_result/best_model_ViT_UNet.mdl"):
         """保存模型"""
@@ -105,3 +112,7 @@ class ViT_UNet(nn.Module):
             for name, param in self.vit.named_parameters():
                 if any(f"layer.{i}" in name for i in range(12-num_layers, 12)):
                     param.requires_grad = True
+                    
+    def loadIFExist(self):
+        """兼容原有训练代码的加载方法"""
+        self.load()

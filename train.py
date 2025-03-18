@@ -124,67 +124,72 @@ def load_model(args):
 
 def plot_training_curves(history, save_dir):
     """
-    绘制训练过程中的所有指标曲线
+    Plot training and validation metrics
     Args:
-        history: 包含所有训练指标的字典
-        save_dir: 保存图表的目录
+        history: Dictionary containing all training metrics
+        save_dir: Directory to save the plots
     """
-    # 设置中文字体
-    plt.rcParams['font.sans-serif'] = ['SimHei']
-    plt.rcParams['axes.unicode_minus'] = False
-    
-    # 创建保存目录
+    # Create save directory
     os.makedirs(save_dir, exist_ok=True)
     
-    # 设置图表风格
-    plt.style.use('seaborn')
+    # Set plot style
+    plt.style.use('default')
     
-    # 创建图表
+    # Create figure with subplots
     fig, axes = plt.subplots(2, 2, figsize=(15, 12))
-    fig.suptitle('训练过程指标', fontsize=16)
+    fig.suptitle('Training and Validation Metrics', fontsize=16)
     
-    # 1. 损失曲线
-    axes[0, 0].plot(history['train_loss'], label='训练损失', linewidth=2)
-    axes[0, 0].plot(history['val_loss'], label='验证损失', linewidth=2)
-    axes[0, 0].set_title('损失曲线')
+    # Set background color
+    fig.patch.set_facecolor('white')
+    for ax in axes.flat:
+        ax.set_facecolor('white')
+    
+    # 1. Loss curves
+    axes[0, 0].plot(history['train_loss'], label='Train', linewidth=2, color='#FF6B6B')
+    axes[0, 0].plot(history['val_loss'], label='Val', linewidth=2, color='#4ECDC4')
+    axes[0, 0].set_title('Loss', fontsize=12, pad=10)
     axes[0, 0].set_xlabel('Epoch')
     axes[0, 0].set_ylabel('Loss')
     axes[0, 0].legend()
-    axes[0, 0].grid(True)
+    axes[0, 0].grid(True, linestyle='--', alpha=0.7)
     
-    # 2. 准确率曲线
-    axes[0, 1].plot(history['train_acc'], label='训练准确率', linewidth=2)
-    axes[0, 1].plot(history['val_acc'], label='验证准确率', linewidth=2)
-    axes[0, 1].set_title('准确率曲线')
+    # 2. Accuracy curves
+    axes[0, 1].plot(history['train_acc'], label='Train', linewidth=2, color='#FF6B6B')
+    axes[0, 1].plot(history['val_acc'], label='Val', linewidth=2, color='#4ECDC4')
+    axes[0, 1].set_title('Accuracy', fontsize=12, pad=10)
     axes[0, 1].set_xlabel('Epoch')
     axes[0, 1].set_ylabel('Accuracy')
     axes[0, 1].legend()
-    axes[0, 1].grid(True)
+    axes[0, 1].grid(True, linestyle='--', alpha=0.7)
     
-    # 3. IoU曲线
-    axes[1, 0].plot(history['train_mean_iu'], label='训练IoU', linewidth=2)
-    axes[1, 0].plot(history['val_mean_iu'], label='验证IoU', linewidth=2)
-    axes[1, 0].set_title('IoU曲线')
+    # 3. IoU curves
+    axes[1, 0].plot(history['train_mean_iu'], label='Train', linewidth=2, color='#FF6B6B')
+    axes[1, 0].plot(history['val_mean_iu'], label='Val', linewidth=2, color='#4ECDC4')
+    axes[1, 0].set_title('IoU', fontsize=12, pad=10)
     axes[1, 0].set_xlabel('Epoch')
     axes[1, 0].set_ylabel('IoU')
     axes[1, 0].legend()
-    axes[1, 0].grid(True)
+    axes[1, 0].grid(True, linestyle='--', alpha=0.7)
     
-    # 4. 加权准确率曲线
-    axes[1, 1].plot(history['train_fwavacc'], label='训练加权准确率', linewidth=2)
-    axes[1, 1].plot(history['val_fwavacc'], label='验证加权准确率', linewidth=2)
-    axes[1, 1].set_title('加权准确率曲线')
+    # 4. Weighted Accuracy curves
+    axes[1, 1].plot(history['train_fwavacc'], label='Train', linewidth=2, color='#FF6B6B')
+    axes[1, 1].plot(history['val_fwavacc'], label='Val', linewidth=2, color='#4ECDC4')
+    axes[1, 1].set_title('Weighted Accuracy', fontsize=12, pad=10)
     axes[1, 1].set_xlabel('Epoch')
     axes[1, 1].set_ylabel('Weighted Accuracy')
     axes[1, 1].legend()
-    axes[1, 1].grid(True)
+    axes[1, 1].grid(True, linestyle='--', alpha=0.7)
     
-    # 调整布局
+    # Adjust layout
     plt.tight_layout()
     
-    # 保存图表
+    # Save plot
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    plt.savefig(os.path.join(save_dir, f'training_curves_{timestamp}.png'), dpi=300, bbox_inches='tight')
+    plt.savefig(os.path.join(save_dir, f'training_curves_{timestamp}.png'), 
+                dpi=300, 
+                bbox_inches='tight',
+                facecolor='white',
+                edgecolor='none')
     plt.close()
 
 def train(args, model_name, net):
@@ -433,6 +438,7 @@ if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
     # args.model = 'ViT'
+    args.epochs = 2
     model_name, net = load_model(args)
     # print(args.n_classes)
     # print(args.init_lr)

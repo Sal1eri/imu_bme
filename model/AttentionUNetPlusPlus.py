@@ -101,6 +101,9 @@ class AttentionUNetPlusPlus(nn.Module):
         self.final2 = nn.Conv2d(filters[0], num_classes, 1)
         self.final3 = nn.Conv2d(filters[0], num_classes, 1)
         self.final4 = nn.Conv2d(filters[0], num_classes, 1)
+        
+        # 用于兼容原有代码的标志
+        self.deep_supervision = True
 
     def forward(self, x):
         # Encoder
@@ -134,9 +137,10 @@ class AttentionUNetPlusPlus(nn.Module):
         output3 = self.final3(x0_3)
         output4 = self.final4(x0_4)
 
-        if self.training:
-            # 在训练时返回所有输出用于深度监督
+        # 修改返回方式以兼容原有代码
+        if hasattr(self, 'deep_supervision') and self.deep_supervision and self.training:
+            # 训练时使用深度监督
             return [output1, output2, output3, output4]
         else:
-            # 在推理时只返回最后一个输出
+            # 默认情况下只返回最终输出
             return output4 

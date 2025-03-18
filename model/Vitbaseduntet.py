@@ -50,6 +50,57 @@ class ViT_UNet(nn.Module):
                 )
             )
 
+    def get_vit_parameters(self):
+        """
+        获取ViT编码器的参数
+        Returns:
+            list: ViT编码器的参数列表
+        """
+        return [p for p in self.vit.parameters() if p.requires_grad]
+    
+    def get_decoder_parameters(self):
+        """
+        获取解码器的参数
+        Returns:
+            list: 解码器的参数列表
+        """
+        decoder_params = []
+        # 添加解码器各层的参数
+        decoder_params.extend(self.decoder_blocks[0].parameters())
+        decoder_params.extend(self.decoder_blocks[1].parameters())
+        decoder_params.extend(self.decoder_blocks[2].parameters())
+        decoder_params.extend(self.decoder_blocks[3].parameters())
+        decoder_params.extend(self.final_conv.parameters())
+        return decoder_params
+    
+    def unfreeze_vit(self, num_layers=None):
+        """
+        解冻ViT的指定层
+        Args:
+            num_layers: 要解冻的层数，None表示解冻所有层
+        """
+        # 首先冻结所有层
+        for param in self.vit.parameters():
+            param.requires_grad = False
+            
+        if num_layers is None:
+            # 解冻所有层
+            for param in self.vit.parameters():
+                param.requires_grad = True
+        else:
+            # 解冻最后num_layers层
+            total_layers = len(self.vit.encoder.layer)
+            start_layer = max(0, total_layers - num_layers)
+            
+            # 解冻指定层的参数
+            for i in range(start_layer, total_layers):
+                for param in self.vit.encoder.layer[i].parameters():
+                    param.requires_grad = True
+            
+            # 解冻patch embedding和position embedding
+            for param in self.vit.embeddings.parameters():
+                param.requires_grad = True
+
     def forward(self, x):
         # 保存输入尺寸
         input_size = x.size()[2:]
@@ -110,17 +161,6 @@ class ViT_UNet(nn.Module):
         else:
             print(f"未找到模型文件: {path}")
             
-    def unfreeze_vit(self, num_layers=None):
-        """解冻ViT的部分层"""
-        if num_layers is None:
-            for param in self.vit.parameters():
-                param.requires_grad = True
-        else:
-            # 只解冻最后几层
-            for name, param in self.vit.named_parameters():
-                if any(f"layer.{i}" in name for i in range(12-num_layers, 12)):
-                    param.requires_grad = True
-                    
     def loadIFExist(self):
         """兼容原有训练代码的加载方法"""
         self.load()

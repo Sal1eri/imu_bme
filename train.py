@@ -438,7 +438,7 @@ if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
     # args.model = 'ViT'
-    args.epochs = 2
+    # args.epochs = 2
     model_name, net = load_model(args)
     # print(args.n_classes)
     # print(args.init_lr)

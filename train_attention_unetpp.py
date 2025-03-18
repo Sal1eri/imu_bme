@@ -86,7 +86,7 @@ def train_one_epoch(model, train_loader, criterion, dice_loss, surface_loss, opt
         pred_np = pred.cpu().numpy().astype(np.int64)
         target_np = target.squeeze().cpu().numpy().astype(np.int64)
         
-        acc, acc_cls, mean_iu, fwavacc = label_accuracy_score(target_np, pred_np, 2)
+        acc, acc_cls, mean_iu, fwavacc, _, _, _, _  = label_accuracy_score(target_np, pred_np, 2)
         
         total_loss += loss.item()
         total_acc += acc
@@ -136,7 +136,7 @@ def validate(model, val_loader, criterion, dice_loss, surface_loss, device):
             pred_np = pred.cpu().numpy().astype(np.int64)
             target_np = target.squeeze().cpu().numpy().astype(np.int64)
             
-            acc, acc_cls, mean_iu, fwavacc = label_accuracy_score(target_np, pred_np, 2)
+            acc, acc_cls, mean_iu, fwavacc, _, _, _, _  = label_accuracy_score(target_np, pred_np, 2)
             
             total_loss += loss.item()
             total_acc += acc

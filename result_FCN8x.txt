@@ -1,0 +1,21 @@
+
+epoch: 1
+train_loss: 0.3752
+Overall Metrics:
+  - Accuracy: 0.8600
+  - Mean Accuracy: 0.6120
+  - Mean IoU: 0.5225
+  - Weighted Accuracy: 0.7806
+  - Mean Dice: 0.6205
+  - Mean Recall: 0.6120
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.8553
+    - Accuracy: 0.9318
+    - Dice: 0.9220
+    - Recall: 0.9318
+  Class 1:
+    - IoU: 0.1898
+    - Accuracy: 0.2922
+    - Dice: 0.3190
+    - Recall: 0.2922

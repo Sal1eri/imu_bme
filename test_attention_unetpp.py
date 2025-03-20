@@ -1,6 +1,7 @@
 import torch
 import torch.nn.functional as F
 from model.AttentionUNetPlusPlus import AttentionUNetPlusPlus
+from PIL import Image
 
 def test_model_output():
     # 创建模型
@@ -84,6 +85,16 @@ def test_model_output():
             print(f"Softmax后形状: {softmax_out.shape}")
         except Exception as e:
             print(f"应用softmax时出错: {e}")
+
+def process_image(image_path):
+    image = Image.open(image_path).convert('RGB')
+    original_size = image.size
+    image = SimpleResize(INPUT_SIZE)(image)
+    image_tensor = SimpleToTensor()(image)
+    return image_tensor, original_size
+
+def predict_single_image(model, image_tensor, device):
+    # 直接使用tensor，不再需要检查类型
 
 if __name__ == "__main__":
     test_model_output() 

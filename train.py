@@ -126,75 +126,68 @@ def load_model(args):
 
     return model_name, net
 
-def plot_training_curves(history, save_dir):
+def plot_training_curves(history, save_dir, model_name):
     """
     Plot training and validation metrics
     Args:
         history: Dictionary containing all training metrics
         save_dir: Directory to save the plots
+        model_name: Name of the model
     """
-    # Create save directory
+    # 创建保存目录
     os.makedirs(save_dir, exist_ok=True)
     
-    # Set plot style
-    plt.style.use('default')
+    # 创建画布
+    plt.figure(figsize=(12, 10))
     
-    # Create figure with subplots
-    fig, axes = plt.subplots(2, 2, figsize=(15, 12))
-    fig.suptitle('Training and Validation Metrics', fontsize=16)
+    # 损失曲线
+    plt.subplot(2, 2, 1)
+    plt.plot(history['train_loss'], label='Train Loss')
+    plt.plot(history['val_loss'], label='Validation Loss')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.title('Loss Curves')
+    plt.legend()
+    plt.grid(True)
     
-    # Set background color
-    fig.patch.set_facecolor('white')
-    for ax in axes.flat:
-        ax.set_facecolor('white')
+    # IoU曲线
+    plt.subplot(2, 2, 2)
+    plt.plot(history['train_mean_iu'], label='Train IoU')
+    plt.plot(history['val_mean_iu'], label='Validation IoU')
+    plt.xlabel('Epochs')
+    plt.ylabel('IoU')
+    plt.title('IoU Curves')
+    plt.legend()
+    plt.grid(True)
     
-    # 1. Loss curves
-    axes[0, 0].plot(history['train_loss'], label='Train', linewidth=2, color='#FF6B6B')
-    axes[0, 0].plot(history['val_loss'], label='Val', linewidth=2, color='#4ECDC4')
-    axes[0, 0].set_title('Loss', fontsize=12, pad=10)
-    axes[0, 0].set_xlabel('Epoch')
-    axes[0, 0].set_ylabel('Loss')
-    axes[0, 0].legend()
-    axes[0, 0].grid(True, linestyle='--', alpha=0.7)
+    # Dice系数曲线
+    plt.subplot(2, 2, 3)
+    plt.plot(history['train_dice'], label='Train Dice')
+    plt.plot(history['val_dice'], label='Validation Dice')
+    plt.xlabel('Epochs')
+    plt.ylabel('Dice Coefficient')
+    plt.title('Dice Coefficient Curves')
+    plt.legend()
+    plt.grid(True)
     
-    # 2. Accuracy curves
-    axes[0, 1].plot(history['train_acc'], label='Train', linewidth=2, color='#FF6B6B')
-    axes[0, 1].plot(history['val_acc'], label='Val', linewidth=2, color='#4ECDC4')
-    axes[0, 1].set_title('Accuracy', fontsize=12, pad=10)
-    axes[0, 1].set_xlabel('Epoch')
-    axes[0, 1].set_ylabel('Accuracy')
-    axes[0, 1].legend()
-    axes[0, 1].grid(True, linestyle='--', alpha=0.7)
+    # 像素准确率曲线
+    plt.subplot(2, 2, 4)
+    plt.plot(history['train_acc'], label='Train Accuracy')
+    plt.plot(history['val_acc'], label='Validation Accuracy')
+    plt.xlabel('Epochs')
+    plt.ylabel('Pixel Accuracy')
+    plt.title('Pixel Accuracy Curves')
+    plt.legend()
+    plt.grid(True)
     
-    # 3. IoU curves
-    axes[1, 0].plot(history['train_mean_iu'], label='Train', linewidth=2, color='#FF6B6B')
-    axes[1, 0].plot(history['val_mean_iu'], label='Val', linewidth=2, color='#4ECDC4')
-    axes[1, 0].set_title('IoU', fontsize=12, pad=10)
-    axes[1, 0].set_xlabel('Epoch')
-    axes[1, 0].set_ylabel('IoU')
-    axes[1, 0].legend()
-    axes[1, 0].grid(True, linestyle='--', alpha=0.7)
-    
-    # 4. Weighted Accuracy curves
-    axes[1, 1].plot(history['train_fwavacc'], label='Train', linewidth=2, color='#FF6B6B')
-    axes[1, 1].plot(history['val_fwavacc'], label='Val', linewidth=2, color='#4ECDC4')
-    axes[1, 1].set_title('Weighted Accuracy', fontsize=12, pad=10)
-    axes[1, 1].set_xlabel('Epoch')
-    axes[1, 1].set_ylabel('Weighted Accuracy')
-    axes[1, 1].legend()
-    axes[1, 1].grid(True, linestyle='--', alpha=0.7)
-    
-    # Adjust layout
     plt.tight_layout()
     
-    # Save plot
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    plt.savefig(os.path.join(save_dir, f'training_curves_{timestamp}.png'), 
-                dpi=300, 
-                bbox_inches='tight',
-                facecolor='white',
-                edgecolor='none')
+    # 保存图表
+    plt.savefig(os.path.join(save_dir, f'{model_name}_results.png'))
     plt.close()
+    
+    print(f'指标曲线图已保存至 {os.path.join(save_dir, f"{model_name}_results.png")}')
+
 
 def train(args, model_name, net):
     model_path = './model_result/best_model_{}.mdl'.format(model_name)
@@ -224,8 +217,8 @@ def train(args, model_name, net):
     )
     
     # 设置混合损失权重
-    alpha = 0.8  # 交叉熵损失权重
-    beta = 0.2   # 边界损失权重
+    alpha = 1  # 交叉熵损失权重
+    beta = 0   # 边界损失权重
     
     best_score = 0.0
     start_time = time.time()
@@ -292,15 +285,16 @@ def train(args, model_name, net):
         'val_mean_iu': [],
         'train_fwavacc': [],
         'val_fwavacc': [],
-        'learning_rates': []
+        'learning_rates': [],
+        'train_dice': [],
+        'val_dice': [],
+        'train_recall': [],
+        'val_recall': []
     }
     
     # 创建图表保存目录
-    plots_dir = os.path.join('training_plots', model_name)
+    plots_dir = os.path.join('training_plots')
     os.makedirs(plots_dir, exist_ok=True)
-    
-    # 创建时间戳
-    timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     
     for e in range(epoch):
         net.train()
@@ -344,7 +338,7 @@ def train(args, model_name, net):
         
         # 计算训练指标
         train_loss /= len(train_dataloader.dataset)
-        acc, acc_cls, mean_iu, fwavacc, _, _, _, _ = label_accuracy_score(
+        acc, acc_cls, mean_iu, fwavacc, iu, acc_cls_per_class, dice, mean_dice, recall, mean_recall = label_accuracy_score(
             label_true.numpy(), 
             label_pred.numpy(),
             args.n_classes
@@ -354,15 +348,41 @@ def train(args, model_name, net):
         scheduler.step(train_loss)
         
         print(f'epoch: {e + 1}')
-        print(f'train_loss: {train_loss:.4f}, acc: {acc:.4f}, acc_cls: {acc_cls:.4f}, '
-              f'mean_iu: {mean_iu:.4f}, fwavacc: {fwavacc:.4f}')
+        print(f'train_loss: {train_loss:.4f}')
+        print(f'Overall Metrics:')
+        print(f'  - Accuracy: {acc:.4f}')
+        print(f'  - Mean Accuracy: {acc_cls:.4f}')
+        print(f'  - Mean IoU: {mean_iu:.4f}')
+        print(f'  - Weighted Accuracy: {fwavacc:.4f}')
+        print(f'  - Mean Dice: {mean_dice:.4f}')
+        print(f'  - Mean Recall: {mean_recall:.4f}')
+        print(f'Per-class Metrics:')
+        for i in range(args.n_classes):
+            print(f'  Class {i}:')
+            print(f'    - IoU: {iu[i]:.4f}')
+            print(f'    - Accuracy: {acc_cls_per_class[i]:.4f}')
+            print(f'    - Dice: {dice[i]:.4f}')
+            print(f'    - Recall: {recall[i]:.4f}')
         print(f'Time for this epoch: {time.time() - epoch_start_time:.2f} seconds')
         
         # 保存结果
         with open(result_path, 'a') as f:
             f.write(f'\nepoch: {e + 1}\n')
-            f.write(f'train_loss: {train_loss:.4f}, acc: {acc:.4f}, acc_cls: {acc_cls:.4f}, '
-                   f'mean_iu: {mean_iu:.4f}, fwavacc: {fwavacc:.4f}\n')
+            f.write(f'train_loss: {train_loss:.4f}\n')
+            f.write('Overall Metrics:\n')
+            f.write(f'  - Accuracy: {acc:.4f}\n')
+            f.write(f'  - Mean Accuracy: {acc_cls:.4f}\n')
+            f.write(f'  - Mean IoU: {mean_iu:.4f}\n')
+            f.write(f'  - Weighted Accuracy: {fwavacc:.4f}\n')
+            f.write(f'  - Mean Dice: {mean_dice:.4f}\n')
+            f.write(f'  - Mean Recall: {mean_recall:.4f}\n')
+            f.write('Per-class Metrics:\n')
+            for i in range(args.n_classes):
+                f.write(f'  Class {i}:\n')
+                f.write(f'    - IoU: {iu[i]:.4f}\n')
+                f.write(f'    - Accuracy: {acc_cls_per_class[i]:.4f}\n')
+                f.write(f'    - Dice: {dice[i]:.4f}\n')
+                f.write(f'    - Recall: {recall[i]:.4f}\n')
         
         # 记录训练指标
         history['train_loss'].append(train_loss)
@@ -370,6 +390,8 @@ def train(args, model_name, net):
         history['train_acc_cls'].append(acc_cls)
         history['train_mean_iu'].append(mean_iu)
         history['train_fwavacc'].append(fwavacc)
+        history['train_dice'].append(mean_dice)
+        history['train_recall'].append(mean_recall)
         history['learning_rates'].append(optimizer.param_groups[0]['lr'])
         
         # 验证阶段
@@ -404,14 +426,27 @@ def train(args, model_name, net):
         
         # 计算验证指标
         val_loss /= len(val_dataloader.dataset)
-        val_acc, val_acc_cls, val_mean_iu, val_fwavacc, _, _, _, _ = label_accuracy_score(
+        val_acc, val_acc_cls, val_mean_iu, val_fwavacc, val_iu, val_acc_cls_per_class, val_dice, val_mean_dice, val_recall, val_mean_recall = label_accuracy_score(
             val_label_true.numpy(),
             val_label_pred.numpy(),
             args.n_classes
         )
         
-        print(f'val_loss: {val_loss:.4f}, acc: {val_acc:.4f}, acc_cls: {val_acc_cls:.4f}, '
-              f'mean_iu: {val_mean_iu:.4f}, fwavacc: {val_fwavacc:.4f}')
+        print(f'val_loss: {val_loss:.4f}')
+        print(f'Overall Metrics:')
+        print(f'  - Accuracy: {val_acc:.4f}')
+        print(f'  - Mean Accuracy: {val_acc_cls:.4f}')
+        print(f'  - Mean IoU: {val_mean_iu:.4f}')
+        print(f'  - Weighted Accuracy: {val_fwavacc:.4f}')
+        print(f'  - Mean Dice: {val_mean_dice:.4f}')
+        print(f'  - Mean Recall: {val_mean_recall:.4f}')
+        print(f'Per-class Metrics:')
+        for i in range(args.n_classes):
+            print(f'  Class {i}:')
+            print(f'    - IoU: {val_iu[i]:.4f}')
+            print(f'    - Accuracy: {val_acc_cls_per_class[i]:.4f}')
+            print(f'    - Dice: {val_dice[i]:.4f}')
+            print(f'    - Recall: {val_recall[i]:.4f}')
         
         # 记录验证指标
         history['val_loss'].append(val_loss)
@@ -419,20 +454,22 @@ def train(args, model_name, net):
         history['val_acc_cls'].append(val_acc_cls)
         history['val_mean_iu'].append(val_mean_iu)
         history['val_fwavacc'].append(val_fwavacc)
-        
-        # 每个epoch结束后绘制图表
-        plot_training_curves(history, plots_dir)
-        
-        # 保存训练历史到CSV文件
-        df = pd.DataFrame(history)
-        df.to_csv(os.path.join(plots_dir, f'training_history_{timestamp}.csv'), index=False)
+        history['val_dice'].append(val_mean_dice)
+        history['val_recall'].append(val_mean_recall)
         
         # 保存最佳模型
-        score = (val_acc_cls + val_mean_iu) / 2
+        score = (val_acc_cls + val_mean_iu + val_mean_dice + val_mean_recall) / 4
         if score > best_score:
             best_score = score
             torch.save(net.state_dict(), model_path)
             print(f'Best model saved with score: {best_score:.4f}')
+    
+    # 训练结束后，绘制最终图表
+    plot_training_curves(history, plots_dir, model_name)
+    
+    # 保存训练历史到CSV文件
+    df = pd.DataFrame(history)
+    df.to_csv(os.path.join(plots_dir, f'{model_name}_training_history.csv'), index=False)
     
     total_time = time.time() - start_time
     print(f'Total training time: {total_time:.2f} seconds')
@@ -442,7 +479,6 @@ if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
     # args.model = 'AttentionUNet+'
-    # args.epochs = 2
 
     model_name, net = load_model(args)
     # print(args.n_classes)

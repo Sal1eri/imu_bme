@@ -1,6 +1,0 @@
-
-epoch: 1
-train_loss: 0.2482, acc: 0.9003, acc_cls: 0.6643, mean_iu: 0.5922, fwavacc: 0.8279
-
-epoch: 2
-train_loss: 0.8153, acc: 0.8723, acc_cls: 0.6331, mean_iu: 0.5447, fwavacc: 0.7951

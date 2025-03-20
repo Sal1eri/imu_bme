@@ -33,6 +33,7 @@ def label_accuracy_score(label_trues, label_preds, n_class):
       - mean accuracy
       - mean IU
       - fwavacc
+      - recall
     """
     hist = np.zeros((n_class, n_class))
     for lt, lp in zip(label_trues, label_preds):
@@ -62,4 +63,8 @@ def label_accuracy_score(label_trues, label_preds, n_class):
 
     mean_dice = np.nanmean(dice)
 
-    return acc, mean_acc_cls, mean_iu, fwavacc, iu, acc_cls, dice, mean_dice
+    # 计算召回率
+    recall = np.diag(hist) / (hist.sum(axis=1) + smooth)
+    mean_recall = np.nanmean(recall)
+
+    return acc, mean_acc_cls, mean_iu, fwavacc, iu, acc_cls, dice, mean_dice, recall, mean_recall

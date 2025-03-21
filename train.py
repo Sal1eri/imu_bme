@@ -120,7 +120,7 @@ def load_model(args):
         print('using AttentionUNet+')
     else:
         model_name = 'PSPnet'
-        net = PSPNet(3)
+        net = PSPNet(num_classes=2)
         print("using PSPnet")
 
 

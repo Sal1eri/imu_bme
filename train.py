@@ -478,7 +478,7 @@ def train(args, model_name, net):
 if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
-    args.model = 'FCN'
+
 
     model_name, net = load_model(args)
     # print(args.n_classes)

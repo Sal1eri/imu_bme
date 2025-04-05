@@ -57,5 +57,10 @@ class DeepLabV3(nn.Module):
     #     if not os.path.exists(self.model_dir):
     #         os.makedirs(self.model_dir)
     #         os.makedirs(self.checkpoints_dir)
+if __name__ == "__main__":
+    from torchsummary import summary
 
+    fcn = DeepLabV3(2)
+    fcn.cuda()
+    summary(fcn,(3,224,224))
 

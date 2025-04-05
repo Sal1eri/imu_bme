@@ -44,7 +44,40 @@ from utils.transform import Resize,Compose,ToTensor,Normalize,RandomHorizontalFl
 
 from model.Vitbaseduntet import ViT_UNet
 from model.AttentionUNetPlusPlus import AttentionUNetPlusPlus
+from model.Unet_CBAM import UNet_CBAM
+from model.Unet_improved import UNetImprove
 
+# 添加DiceLoss
+class DiceLoss(nn.Module):
+    def __init__(self, smooth=1.0):
+        super(DiceLoss, self).__init__()
+        self.smooth = smooth
+
+    def forward(self, logits, targets):
+        """
+        计算Dice损失
+        Args:
+            logits: 模型输出, [B, 2, H, W] 的logits
+            targets: 标签, [B, H, W], 值为0或1
+        """
+        batch_size = logits.size(0)
+
+        # 应用softmax获得概率值，取前景类通道
+        probs = F.softmax(logits, dim=1)[:, 1]  # [B, H, W]
+
+        # 将预测和标签展平
+        probs_flat = probs.view(batch_size, -1)
+        targets_flat = targets.view(batch_size, -1)
+
+        # 计算交集和并集
+        intersection = (probs_flat * targets_flat).sum(dim=1)
+        union = probs_flat.sum(dim=1) + targets_flat.sum(dim=1)
+
+        # 计算Dice系数
+        dice = (2. * intersection + self.smooth) / (union + self.smooth)
+
+        # 返回损失值
+        return 1 - dice.mean()
 
 def boundary_loss(data, label):
     """
@@ -118,6 +151,14 @@ def load_model(args):
         model_name = 'AttentionUNet++'
         net = AttentionUNetPlusPlus()
         print('using AttentionUNet+')
+    elif args.model == 'Unet_CBAM':
+        model_name = 'Unet_CBAM'
+        net = UNet_CBAM()
+        print('using Unet_CBAM')
+    elif args.model == 'Unet_improved':
+        model_name = 'Unet_improved'
+        net = UNetImprove(3,2)
+        print('using Unet_improved')
     else:
         model_name = 'PSPnet'
         net = PSPNet(num_classes=2)
@@ -203,6 +244,7 @@ def train(args, model_name, net):
     # 设置损失函数
     criterion = nn.CrossEntropyLoss()
     surface_criterion = SurfaceLoss()
+    dice_criterion = DiceLoss()  # 添加Dice Loss
     
     # 设置优化器
     optimizer = optim.Adam(net.parameters(), lr=args.init_lr, weight_decay=1e-4)
@@ -218,20 +260,12 @@ def train(args, model_name, net):
     
     # 设置混合损失权重
     alpha = 1  # 交叉熵损失权重
-    beta = 0   # 边界损失权重
+    beta = 0.0   # 边界损失权重
+    gamma = 0 # Dice Loss权重
     
     best_score = 0.0
     start_time = time.time()
     
-    # train_csv_dir = 'test.csv'
-    # val_csv_dir = 'val.csv'
-    #
-    #
-    # train_data = CustomDataset(train_csv_dir, args.input_height, args.input_width)
-    # train_dataloader = DataLoader(train_data, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
-    #
-    # val_data = CustomDataset(val_csv_dir, args.input_height, args.input_width)
-    # val_dataloader = DataLoader(val_data, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
 
     train_transform = Compose([
                                     Resize((args.input_height, args.input_width)),
@@ -247,10 +281,7 @@ def train(args, model_name, net):
                             ])
 
 
-    # train_image_root = args.data_path + '/images/train'
-    # train_lables_root = args.data_path + '/lables/train'
 
-    #train_dataset = torchvision.datasets.ImageFolder
 
     train_dataset = SegData(image_path=os.path.join(args.data_path, 'training/images'),
                             mask_path=os.path.join(args.data_path, 'training/segmentations'),
@@ -302,7 +333,7 @@ def train(args, model_name, net):
         train_loss = 0.0
         label_true = torch.LongTensor()
         label_pred = torch.LongTensor()
-        
+        # torch.set_printoptions(threshold=np.inf)
         with tqdm(total=len(train_dataloader), desc=f'{e + 1}/{epoch} epoch Train_Progress') as pb_train:
             for i, (batchdata, batchlabel) in enumerate(train_dataloader):
                 if use_gpu:
@@ -311,12 +342,14 @@ def train(args, model_name, net):
                 
                 # 前向传播
                 output = net(batchdata)
+
                 output = F.log_softmax(output, dim=1)
-                
+
                 # 计算混合损失
                 ce_loss = criterion(output, batchlabel)
                 bd_loss = boundary_loss(output, batchlabel)
-                loss = alpha * ce_loss + beta * bd_loss
+                dice_loss = dice_criterion(output, batchlabel)
+                loss = alpha * ce_loss + beta * bd_loss + gamma * dice_loss
                 
                 # 反向传播
                 optimizer.zero_grad()
@@ -330,7 +363,10 @@ def train(args, model_name, net):
                 # 记录损失和预测
                 train_loss += loss.cpu().item() * batchlabel.size(0)
                 pred = output.argmax(dim=1).squeeze().data.cpu()
+
+
                 real = batchlabel.data.cpu()
+
                 label_true = torch.cat((label_true, real), dim=0)
                 label_pred = torch.cat((label_pred, pred), dim=0)
                 
@@ -413,7 +449,8 @@ def train(args, model_name, net):
                     # 计算验证损失
                     ce_loss = criterion(output, batchlabel)
                     bd_loss = boundary_loss(output, batchlabel)
-                    loss = alpha * ce_loss + beta * bd_loss
+                    dice_loss = dice_criterion(output, batchlabel)
+                    loss = alpha * ce_loss + beta * bd_loss + gamma * dice_loss
                     
                     pred = output.argmax(dim=1).squeeze().data.cpu()
                     real = batchlabel.data.cpu()
@@ -458,7 +495,7 @@ def train(args, model_name, net):
         history['val_recall'].append(val_mean_recall)
         
         # 保存最佳模型
-        score = (val_acc_cls + val_mean_iu + val_mean_dice + val_mean_recall) / 4
+        score = (val_mean_iu + val_mean_dice) / 2
         if score > best_score:
             best_score = score
             torch.save(net.state_dict(), model_path)
@@ -478,8 +515,9 @@ def train(args, model_name, net):
 if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
-
-
+    args.model='Unet_improved'
+    args.epochs=40
+    args.batch_size=32
     model_name, net = load_model(args)
     # print(args.n_classes)
     # print(args.init_lr)

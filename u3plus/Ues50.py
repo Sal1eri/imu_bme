@@ -98,4 +98,4 @@ if __name__ == "__main__":
 
     net = UesNet()
     net.cuda()
-    summary(net, (3, 128, 128))
+    summary(net, (3, 224, 224))

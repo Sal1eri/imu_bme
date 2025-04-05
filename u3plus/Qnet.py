@@ -90,6 +90,6 @@ class ResNetUNet(nn.Module):
 if __name__ == "__main__":
     from torchsummary import summary
 
-    net = ResNetUNet()
+    net = ResNetUNet(n_class=2)
     net.cuda()
-    summary(net, (3, 128, 128))
+    summary(net, (3, 224, 224))

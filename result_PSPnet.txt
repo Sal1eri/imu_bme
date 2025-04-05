@@ -1,0 +1,840 @@
+
+epoch: 1
+train_loss: 3.4472
+Overall Metrics:
+  - Accuracy: 0.8574
+  - Mean Accuracy: 0.5031
+  - Mean IoU: 0.4459
+  - Weighted Accuracy: 0.7645
+  - Mean Dice: 0.4953
+  - Mean Recall: 0.5031
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.8567
+    - Accuracy: 0.9599
+    - Dice: 0.9228
+    - Recall: 0.9599
+  Class 1:
+    - IoU: 0.0351
+    - Accuracy: 0.0462
+    - Dice: 0.0678
+    - Recall: 0.0462
+
+epoch: 2
+train_loss: 0.3879
+Overall Metrics:
+  - Accuracy: 0.8854
+  - Mean Accuracy: 0.5335
+  - Mean IoU: 0.4784
+  - Weighted Accuracy: 0.7932
+  - Mean Dice: 0.5369
+  - Mean Recall: 0.5335
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.8843
+    - Accuracy: 0.9872
+    - Dice: 0.9386
+    - Recall: 0.9872
+  Class 1:
+    - IoU: 0.0725
+    - Accuracy: 0.0799
+    - Dice: 0.1353
+    - Recall: 0.0799
+
+epoch: 3
+train_loss: 0.3018
+Overall Metrics:
+  - Accuracy: 0.8932
+  - Mean Accuracy: 0.5722
+  - Mean IoU: 0.5170
+  - Weighted Accuracy: 0.8072
+  - Mean Dice: 0.5961
+  - Mean Recall: 0.5722
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.8912
+    - Accuracy: 0.9860
+    - Dice: 0.9425
+    - Recall: 0.9860
+  Class 1:
+    - IoU: 0.1427
+    - Accuracy: 0.1585
+    - Dice: 0.2497
+    - Recall: 0.1585
+
+epoch: 4
+train_loss: 0.2664
+Overall Metrics:
+  - Accuracy: 0.9026
+  - Mean Accuracy: 0.6230
+  - Mean IoU: 0.5659
+  - Weighted Accuracy: 0.8247
+  - Mean Dice: 0.6620
+  - Mean Recall: 0.6230
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.8996
+    - Accuracy: 0.9835
+    - Dice: 0.9472
+    - Recall: 0.9835
+  Class 1:
+    - IoU: 0.2322
+    - Accuracy: 0.2626
+    - Dice: 0.3769
+    - Recall: 0.2626
+
+epoch: 5
+train_loss: 0.2531
+Overall Metrics:
+  - Accuracy: 0.9068
+  - Mean Accuracy: 0.6511
+  - Mean IoU: 0.5911
+  - Weighted Accuracy: 0.8332
+  - Mean Dice: 0.6927
+  - Mean Recall: 0.6511
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9033
+    - Accuracy: 0.9808
+    - Dice: 0.9492
+    - Recall: 0.9808
+  Class 1:
+    - IoU: 0.2789
+    - Accuracy: 0.3214
+    - Dice: 0.4362
+    - Recall: 0.3214
+
+epoch: 6
+train_loss: 0.2380
+Overall Metrics:
+  - Accuracy: 0.9122
+  - Mean Accuracy: 0.6649
+  - Mean IoU: 0.6076
+  - Weighted Accuracy: 0.8410
+  - Mean Dice: 0.7107
+  - Mean Recall: 0.6649
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9086
+    - Accuracy: 0.9837
+    - Dice: 0.9521
+    - Recall: 0.9837
+  Class 1:
+    - IoU: 0.3065
+    - Accuracy: 0.3461
+    - Dice: 0.4692
+    - Recall: 0.3461
+
+epoch: 7
+train_loss: 0.2369
+Overall Metrics:
+  - Accuracy: 0.9123
+  - Mean Accuracy: 0.6689
+  - Mean IoU: 0.6105
+  - Weighted Accuracy: 0.8417
+  - Mean Dice: 0.7141
+  - Mean Recall: 0.6689
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9086
+    - Accuracy: 0.9827
+    - Dice: 0.9521
+    - Recall: 0.9827
+  Class 1:
+    - IoU: 0.3123
+    - Accuracy: 0.3551
+    - Dice: 0.4760
+    - Recall: 0.3551
+
+epoch: 8
+train_loss: 0.2256
+Overall Metrics:
+  - Accuracy: 0.9165
+  - Mean Accuracy: 0.6856
+  - Mean IoU: 0.6276
+  - Weighted Accuracy: 0.8487
+  - Mean Dice: 0.7324
+  - Mean Recall: 0.6856
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9127
+    - Accuracy: 0.9833
+    - Dice: 0.9544
+    - Recall: 0.9833
+  Class 1:
+    - IoU: 0.3426
+    - Accuracy: 0.3879
+    - Dice: 0.5104
+    - Recall: 0.3879
+
+epoch: 9
+train_loss: 0.2201
+Overall Metrics:
+  - Accuracy: 0.9181
+  - Mean Accuracy: 0.6931
+  - Mean IoU: 0.6350
+  - Weighted Accuracy: 0.8516
+  - Mean Dice: 0.7400
+  - Mean Recall: 0.6931
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9142
+    - Accuracy: 0.9832
+    - Dice: 0.9552
+    - Recall: 0.9832
+  Class 1:
+    - IoU: 0.3558
+    - Accuracy: 0.4030
+    - Dice: 0.5248
+    - Recall: 0.4030
+
+epoch: 10
+train_loss: 0.2209
+Overall Metrics:
+  - Accuracy: 0.9182
+  - Mean Accuracy: 0.6914
+  - Mean IoU: 0.6340
+  - Weighted Accuracy: 0.8515
+  - Mean Dice: 0.7389
+  - Mean Recall: 0.6914
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9144
+    - Accuracy: 0.9838
+    - Dice: 0.9553
+    - Recall: 0.9838
+  Class 1:
+    - IoU: 0.3537
+    - Accuracy: 0.3989
+    - Dice: 0.5226
+    - Recall: 0.3989
+
+epoch: 11
+train_loss: 0.2155
+Overall Metrics:
+  - Accuracy: 0.9206
+  - Mean Accuracy: 0.7001
+  - Mean IoU: 0.6434
+  - Weighted Accuracy: 0.8554
+  - Mean Dice: 0.7484
+  - Mean Recall: 0.7001
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9167
+    - Accuracy: 0.9844
+    - Dice: 0.9565
+    - Recall: 0.9844
+  Class 1:
+    - IoU: 0.3702
+    - Accuracy: 0.4159
+    - Dice: 0.5403
+    - Recall: 0.4159
+
+epoch: 12
+train_loss: 0.2151
+Overall Metrics:
+  - Accuracy: 0.9209
+  - Mean Accuracy: 0.7038
+  - Mean IoU: 0.6463
+  - Weighted Accuracy: 0.8562
+  - Mean Dice: 0.7514
+  - Mean Recall: 0.7038
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9170
+    - Accuracy: 0.9838
+    - Dice: 0.9567
+    - Recall: 0.9838
+  Class 1:
+    - IoU: 0.3756
+    - Accuracy: 0.4237
+    - Dice: 0.5460
+    - Recall: 0.4237
+
+epoch: 13
+train_loss: 0.2225
+Overall Metrics:
+  - Accuracy: 0.9176
+  - Mean Accuracy: 0.6860
+  - Mean IoU: 0.6296
+  - Weighted Accuracy: 0.8500
+  - Mean Dice: 0.7342
+  - Mean Recall: 0.6860
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9138
+    - Accuracy: 0.9846
+    - Dice: 0.9550
+    - Recall: 0.9846
+  Class 1:
+    - IoU: 0.3453
+    - Accuracy: 0.3874
+    - Dice: 0.5133
+    - Recall: 0.3874
+
+epoch: 14
+train_loss: 0.2109
+Overall Metrics:
+  - Accuracy: 0.9224
+  - Mean Accuracy: 0.7054
+  - Mean IoU: 0.6497
+  - Weighted Accuracy: 0.8581
+  - Mean Dice: 0.7546
+  - Mean Recall: 0.7054
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9185
+    - Accuracy: 0.9851
+    - Dice: 0.9575
+    - Recall: 0.9851
+  Class 1:
+    - IoU: 0.3809
+    - Accuracy: 0.4257
+    - Dice: 0.5517
+    - Recall: 0.4257
+
+epoch: 15
+train_loss: 0.2075
+Overall Metrics:
+  - Accuracy: 0.9231
+  - Mean Accuracy: 0.7083
+  - Mean IoU: 0.6528
+  - Weighted Accuracy: 0.8594
+  - Mean Dice: 0.7576
+  - Mean Recall: 0.7083
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9192
+    - Accuracy: 0.9853
+    - Dice: 0.9579
+    - Recall: 0.9853
+  Class 1:
+    - IoU: 0.3863
+    - Accuracy: 0.4312
+    - Dice: 0.5573
+    - Recall: 0.4312
+
+epoch: 16
+train_loss: 0.2027
+Overall Metrics:
+  - Accuracy: 0.9256
+  - Mean Accuracy: 0.7170
+  - Mean IoU: 0.6625
+  - Weighted Accuracy: 0.8635
+  - Mean Dice: 0.7670
+  - Mean Recall: 0.7170
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9217
+    - Accuracy: 0.9860
+    - Dice: 0.9592
+    - Recall: 0.9860
+  Class 1:
+    - IoU: 0.4033
+    - Accuracy: 0.4480
+    - Dice: 0.5748
+    - Recall: 0.4480
+
+epoch: 17
+train_loss: 0.2180
+Overall Metrics:
+  - Accuracy: 0.9199
+  - Mean Accuracy: 0.6956
+  - Mean IoU: 0.6395
+  - Weighted Accuracy: 0.8540
+  - Mean Dice: 0.7444
+  - Mean Recall: 0.6956
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9161
+    - Accuracy: 0.9848
+    - Dice: 0.9562
+    - Recall: 0.9848
+  Class 1:
+    - IoU: 0.3629
+    - Accuracy: 0.4064
+    - Dice: 0.5326
+    - Recall: 0.4064
+
+epoch: 18
+train_loss: 0.2073
+Overall Metrics:
+  - Accuracy: 0.9238
+  - Mean Accuracy: 0.7093
+  - Mean IoU: 0.6545
+  - Weighted Accuracy: 0.8603
+  - Mean Dice: 0.7592
+  - Mean Recall: 0.7093
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9199
+    - Accuracy: 0.9858
+    - Dice: 0.9583
+    - Recall: 0.9858
+  Class 1:
+    - IoU: 0.3891
+    - Accuracy: 0.4327
+    - Dice: 0.5602
+    - Recall: 0.4327
+
+epoch: 19
+train_loss: 0.2013
+Overall Metrics:
+  - Accuracy: 0.9257
+  - Mean Accuracy: 0.7173
+  - Mean IoU: 0.6628
+  - Weighted Accuracy: 0.8636
+  - Mean Dice: 0.7673
+  - Mean Recall: 0.7173
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9218
+    - Accuracy: 0.9860
+    - Dice: 0.9593
+    - Recall: 0.9860
+  Class 1:
+    - IoU: 0.4039
+    - Accuracy: 0.4486
+    - Dice: 0.5754
+    - Recall: 0.4486
+
+epoch: 20
+train_loss: 0.2057
+Overall Metrics:
+  - Accuracy: 0.9239
+  - Mean Accuracy: 0.7111
+  - Mean IoU: 0.6559
+  - Weighted Accuracy: 0.8608
+  - Mean Dice: 0.7607
+  - Mean Recall: 0.7111
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9200
+    - Accuracy: 0.9855
+    - Dice: 0.9583
+    - Recall: 0.9855
+  Class 1:
+    - IoU: 0.3918
+    - Accuracy: 0.4367
+    - Dice: 0.5630
+    - Recall: 0.4367
+
+epoch: 21
+train_loss: 0.2052
+Overall Metrics:
+  - Accuracy: 0.9246
+  - Mean Accuracy: 0.7123
+  - Mean IoU: 0.6579
+  - Weighted Accuracy: 0.8618
+  - Mean Dice: 0.7626
+  - Mean Recall: 0.7123
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9207
+    - Accuracy: 0.9861
+    - Dice: 0.9587
+    - Recall: 0.9861
+  Class 1:
+    - IoU: 0.3951
+    - Accuracy: 0.4386
+    - Dice: 0.5664
+    - Recall: 0.4386
+
+epoch: 22
+train_loss: 0.2082
+Overall Metrics:
+  - Accuracy: 0.9234
+  - Mean Accuracy: 0.7055
+  - Mean IoU: 0.6516
+  - Weighted Accuracy: 0.8595
+  - Mean Dice: 0.7563
+  - Mean Recall: 0.7055
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9196
+    - Accuracy: 0.9865
+    - Dice: 0.9581
+    - Recall: 0.9865
+  Class 1:
+    - IoU: 0.3835
+    - Accuracy: 0.4244
+    - Dice: 0.5544
+    - Recall: 0.4244
+
+epoch: 23
+train_loss: 0.1964
+Overall Metrics:
+  - Accuracy: 0.9279
+  - Mean Accuracy: 0.7245
+  - Mean IoU: 0.6712
+  - Weighted Accuracy: 0.8672
+  - Mean Dice: 0.7752
+  - Mean Recall: 0.7245
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9239
+    - Accuracy: 0.9867
+    - Dice: 0.9605
+    - Recall: 0.9867
+  Class 1:
+    - IoU: 0.4184
+    - Accuracy: 0.4623
+    - Dice: 0.5899
+    - Recall: 0.4623
+
+epoch: 24
+train_loss: 0.2002
+Overall Metrics:
+  - Accuracy: 0.9266
+  - Mean Accuracy: 0.7178
+  - Mean IoU: 0.6649
+  - Weighted Accuracy: 0.8649
+  - Mean Dice: 0.7692
+  - Mean Recall: 0.7178
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9228
+    - Accuracy: 0.9871
+    - Dice: 0.9598
+    - Recall: 0.9871
+  Class 1:
+    - IoU: 0.4070
+    - Accuracy: 0.4486
+    - Dice: 0.5785
+    - Recall: 0.4486
+
+epoch: 25
+train_loss: 0.1969
+Overall Metrics:
+  - Accuracy: 0.9275
+  - Mean Accuracy: 0.7223
+  - Mean IoU: 0.6691
+  - Weighted Accuracy: 0.8665
+  - Mean Dice: 0.7733
+  - Mean Recall: 0.7223
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9236
+    - Accuracy: 0.9869
+    - Dice: 0.9603
+    - Recall: 0.9869
+  Class 1:
+    - IoU: 0.4147
+    - Accuracy: 0.4577
+    - Dice: 0.5863
+    - Recall: 0.4577
+
+epoch: 26
+train_loss: 0.1942
+Overall Metrics:
+  - Accuracy: 0.9281
+  - Mean Accuracy: 0.7253
+  - Mean IoU: 0.6720
+  - Weighted Accuracy: 0.8675
+  - Mean Dice: 0.7760
+  - Mean Recall: 0.7253
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9241
+    - Accuracy: 0.9868
+    - Dice: 0.9606
+    - Recall: 0.9868
+  Class 1:
+    - IoU: 0.4199
+    - Accuracy: 0.4638
+    - Dice: 0.5914
+    - Recall: 0.4638
+
+epoch: 27
+train_loss: 0.1951
+Overall Metrics:
+  - Accuracy: 0.9279
+  - Mean Accuracy: 0.7246
+  - Mean IoU: 0.6712
+  - Weighted Accuracy: 0.8672
+  - Mean Dice: 0.7752
+  - Mean Recall: 0.7246
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9239
+    - Accuracy: 0.9867
+    - Dice: 0.9605
+    - Recall: 0.9867
+  Class 1:
+    - IoU: 0.4184
+    - Accuracy: 0.4624
+    - Dice: 0.5900
+    - Recall: 0.4624
+
+epoch: 28
+train_loss: 0.1925
+Overall Metrics:
+  - Accuracy: 0.9290
+  - Mean Accuracy: 0.7286
+  - Mean IoU: 0.6757
+  - Weighted Accuracy: 0.8691
+  - Mean Dice: 0.7794
+  - Mean Recall: 0.7286
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9251
+    - Accuracy: 0.9870
+    - Dice: 0.9611
+    - Recall: 0.9870
+  Class 1:
+    - IoU: 0.4263
+    - Accuracy: 0.4701
+    - Dice: 0.5978
+    - Recall: 0.4701
+
+epoch: 29
+train_loss: 0.1940
+Overall Metrics:
+  - Accuracy: 0.9284
+  - Mean Accuracy: 0.7247
+  - Mean IoU: 0.6723
+  - Weighted Accuracy: 0.8679
+  - Mean Dice: 0.7762
+  - Mean Recall: 0.7247
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9245
+    - Accuracy: 0.9874
+    - Dice: 0.9608
+    - Recall: 0.9874
+  Class 1:
+    - IoU: 0.4201
+    - Accuracy: 0.4620
+    - Dice: 0.5916
+    - Recall: 0.4620
+
+epoch: 30
+train_loss: 0.1963
+Overall Metrics:
+  - Accuracy: 0.9274
+  - Mean Accuracy: 0.7243
+  - Mean IoU: 0.6701
+  - Weighted Accuracy: 0.8665
+  - Mean Dice: 0.7742
+  - Mean Recall: 0.7243
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9234
+    - Accuracy: 0.9861
+    - Dice: 0.9602
+    - Recall: 0.9861
+  Class 1:
+    - IoU: 0.4167
+    - Accuracy: 0.4625
+    - Dice: 0.5883
+    - Recall: 0.4625
+
+epoch: 31
+train_loss: 0.1930
+Overall Metrics:
+  - Accuracy: 0.9289
+  - Mean Accuracy: 0.7278
+  - Mean IoU: 0.6750
+  - Weighted Accuracy: 0.8688
+  - Mean Dice: 0.7788
+  - Mean Recall: 0.7278
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9249
+    - Accuracy: 0.9871
+    - Dice: 0.9610
+    - Recall: 0.9871
+  Class 1:
+    - IoU: 0.4250
+    - Accuracy: 0.4684
+    - Dice: 0.5965
+    - Recall: 0.4684
+
+epoch: 32
+train_loss: 0.1929
+Overall Metrics:
+  - Accuracy: 0.9289
+  - Mean Accuracy: 0.7272
+  - Mean IoU: 0.6747
+  - Weighted Accuracy: 0.8688
+  - Mean Dice: 0.7785
+  - Mean Recall: 0.7272
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9250
+    - Accuracy: 0.9873
+    - Dice: 0.9610
+    - Recall: 0.9873
+  Class 1:
+    - IoU: 0.4244
+    - Accuracy: 0.4670
+    - Dice: 0.5959
+    - Recall: 0.4670
+
+epoch: 33
+train_loss: 0.1982
+Overall Metrics:
+  - Accuracy: 0.9268
+  - Mean Accuracy: 0.7205
+  - Mean IoU: 0.6668
+  - Weighted Accuracy: 0.8654
+  - Mean Dice: 0.7711
+  - Mean Recall: 0.7205
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9229
+    - Accuracy: 0.9866
+    - Dice: 0.9599
+    - Recall: 0.9866
+  Class 1:
+    - IoU: 0.4108
+    - Accuracy: 0.4545
+    - Dice: 0.5823
+    - Recall: 0.4545
+
+epoch: 34
+train_loss: 0.1986
+Overall Metrics:
+  - Accuracy: 0.9269
+  - Mean Accuracy: 0.7193
+  - Mean IoU: 0.6662
+  - Weighted Accuracy: 0.8654
+  - Mean Dice: 0.7705
+  - Mean Recall: 0.7193
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9230
+    - Accuracy: 0.9870
+    - Dice: 0.9600
+    - Recall: 0.9870
+  Class 1:
+    - IoU: 0.4095
+    - Accuracy: 0.4516
+    - Dice: 0.5810
+    - Recall: 0.4516
+
+epoch: 35
+train_loss: 0.1847
+Overall Metrics:
+  - Accuracy: 0.9319
+  - Mean Accuracy: 0.7370
+  - Mean IoU: 0.6863
+  - Weighted Accuracy: 0.8737
+  - Mean Dice: 0.7891
+  - Mean Recall: 0.7370
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9280
+    - Accuracy: 0.9883
+    - Dice: 0.9626
+    - Recall: 0.9883
+  Class 1:
+    - IoU: 0.4446
+    - Accuracy: 0.4857
+    - Dice: 0.6155
+    - Recall: 0.4857
+
+epoch: 36
+train_loss: 0.1828
+Overall Metrics:
+  - Accuracy: 0.9325
+  - Mean Accuracy: 0.7390
+  - Mean IoU: 0.6886
+  - Weighted Accuracy: 0.8747
+  - Mean Dice: 0.7912
+  - Mean Recall: 0.7390
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9286
+    - Accuracy: 0.9885
+    - Dice: 0.9630
+    - Recall: 0.9885
+  Class 1:
+    - IoU: 0.4486
+    - Accuracy: 0.4895
+    - Dice: 0.6194
+    - Recall: 0.4895
+
+epoch: 37
+train_loss: 0.1815
+Overall Metrics:
+  - Accuracy: 0.9332
+  - Mean Accuracy: 0.7426
+  - Mean IoU: 0.6920
+  - Weighted Accuracy: 0.8760
+  - Mean Dice: 0.7943
+  - Mean Recall: 0.7426
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9292
+    - Accuracy: 0.9883
+    - Dice: 0.9633
+    - Recall: 0.9883
+  Class 1:
+    - IoU: 0.4548
+    - Accuracy: 0.4969
+    - Dice: 0.6253
+    - Recall: 0.4969
+
+epoch: 38
+train_loss: 0.1806
+Overall Metrics:
+  - Accuracy: 0.9334
+  - Mean Accuracy: 0.7430
+  - Mean IoU: 0.6926
+  - Weighted Accuracy: 0.8763
+  - Mean Dice: 0.7948
+  - Mean Recall: 0.7430
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9294
+    - Accuracy: 0.9884
+    - Dice: 0.9634
+    - Recall: 0.9884
+  Class 1:
+    - IoU: 0.4559
+    - Accuracy: 0.4975
+    - Dice: 0.6262
+    - Recall: 0.4975
+
+epoch: 39
+train_loss: 0.1797
+Overall Metrics:
+  - Accuracy: 0.9338
+  - Mean Accuracy: 0.7445
+  - Mean IoU: 0.6943
+  - Weighted Accuracy: 0.8770
+  - Mean Dice: 0.7963
+  - Mean Recall: 0.7445
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9298
+    - Accuracy: 0.9886
+    - Dice: 0.9636
+    - Recall: 0.9886
+  Class 1:
+    - IoU: 0.4588
+    - Accuracy: 0.5004
+    - Dice: 0.6290
+    - Recall: 0.5004
+
+epoch: 40
+train_loss: 0.1798
+Overall Metrics:
+  - Accuracy: 0.9337
+  - Mean Accuracy: 0.7440
+  - Mean IoU: 0.6939
+  - Weighted Accuracy: 0.8768
+  - Mean Dice: 0.7959
+  - Mean Recall: 0.7440
+Per-class Metrics:
+  Class 0:
+    - IoU: 0.9298
+    - Accuracy: 0.9886
+    - Dice: 0.9636
+    - Recall: 0.9886
+  Class 1:
+    - IoU: 0.4580
+    - Accuracy: 0.4993
+    - Dice: 0.6283
+    - Recall: 0.4993

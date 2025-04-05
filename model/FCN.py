@@ -201,8 +201,8 @@ class FCN8x(nn.Module):
 if __name__ == "__main__":
     from torchsummary import summary
 
-    fcn = FCN8x(21)
+    fcn = FCN8x(2)
     fcn.cuda()
-    summary(fcn,(3,128,128))
+    summary(fcn,(3,224,224))
     # pretrained_model.cuda(1)
     # summary(pretrained_model,(3,128,128))

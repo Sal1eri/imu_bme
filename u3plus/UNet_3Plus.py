@@ -817,4 +817,4 @@ if __name__ == "__main__":
 
     net = UNet_3Plus()
     net.cuda()
-    summary(net, (3, 128, 128))
+    summary(net, (3, 224, 224))

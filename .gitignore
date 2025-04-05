@@ -141,3 +141,7 @@ cython_debug/
 data/
 model_result/
 data.zip
+training_plots/
+pretrained_models/
+tmp/
+

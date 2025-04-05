@@ -500,6 +500,9 @@ def train(args, model_name, net):
             best_score = score
             torch.save(net.state_dict(), model_path)
             print(f'Best model saved with score: {best_score:.4f}')
+        else:
+            model_path2 = './model_result/latest_model_{}.mdl'.format(model_name)
+            torch.save(net.state_dict(), model_path2)
     
     # 训练结束后，绘制最终图表
     plot_training_curves(history, plots_dir, model_name)

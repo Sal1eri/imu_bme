@@ -157,7 +157,7 @@ def load_model(args):
         print('using Unet_CBAM')
     elif args.model == 'Unet_improved':
         model_name = 'Unet_improved'
-        net = UNetImprove(3,2)
+        net = UNetImprove(3,2,use_depthwise=False,use_resnet=True)
         print('using Unet_improved')
     else:
         model_name = 'PSPnet'
@@ -520,8 +520,10 @@ if __name__ == "__main__":
     args = get_args_parser()
     args = args.parse_args()
     args.model='Unet_improved'
-    args.epochs=40
-    args.batch_size=32
+    # args.model='Qnet'
+    # args.epochs=40
+
+
     model_name, net = load_model(args)
     # print(args.n_classes)
     # print(args.init_lr)

@@ -45,7 +45,7 @@ from utils.transform import Resize,Compose,ToTensor,Normalize,RandomHorizontalFl
 from model.Vitbaseduntet import ViT_UNet
 from model.AttentionUNetPlusPlus import AttentionUNetPlusPlus
 from model.Unet_CBAM import UNet_CBAM
-from model.Unet_improved import UNetImprove
+from model.Unet_improved_light import UNetImprove
 
 # 添加DiceLoss
 class DiceLoss(nn.Module):

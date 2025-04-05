@@ -157,7 +157,7 @@ def load_model(args):
         print('using Unet_CBAM')
     elif args.model == 'Unet_improved':
         model_name = 'Unet_improved'
-        net = UNetImprove(3,2,use_depthwise=False,use_resnet=True)
+        net = UNetImprove(3,2,ibn_ratio=0.8)
         print('using Unet_improved')
     else:
         model_name = 'PSPnet'
